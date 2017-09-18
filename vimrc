@@ -103,7 +103,7 @@ au FileType tex set sw=2
 au FileType tex set tabstop=2
 au FileType tex set softtabstop=2
 au FileType tex IndentLinesDisable
-au FileType tex let g:ycm_auto_trigger=0
+"au FileType tex let g:ycm_auto_trigger=0
 "Spell check
 au FileType tex setlocal spell spelllang=en_gb
 let g:tex_conceal="abdgm"
@@ -172,24 +172,6 @@ set printoptions=paper:A4,syntax:y,wrap:y,number:y
 "Folding 
 set foldcolumn=5
 
-" Vim filetype detection
-" Language: TaskJuggler
-" Maintainer: Max Meyer <dev@fedux.org>
-autocmd BufNewFile,BufRead *.tj3,*.taskjuggler,*.tji,*.tjp set ft=tjp
-autocmd FileType tjp nmap <Leader>tm :make %<CR>
-
-" For rpmbuilding
-nnoremap <Leader>rbs :!rm ../SRPMS/%:r*.src.rpm; rpmbuild -bs %<CR>
-nnoremap <Leader>rba :!rpmbuild -ba %<CR>
-nnoremap <Leader>rls :!rpmlint %<CR>
-nnoremap <Leader>rla :!rpmlint % ../SRPMS/%:r*.src.rpm<CR>
-nnoremap <Leader>mlrx :tabedit /var/lib/mock/fedora-rawhide-x86_64/result<CR>
-nnoremap <Leader>mlri :tabedit /var/lib/mock/fedora-rawhide-i386/result<CR>
-" ChangeLog for specs
-let spec_chglog_format = "%a %b %d %Y Ankur Sinha <ankursinha AT fedoraproject DOT org>"
-iab clog <c-r>=strftime("%a %b %d 20%y")<CR> Ankur Sinha <ankursinha AT fedoraproject DOT org>
-
-
 " New tab versions of the normal cscope mappings
 set tags=./tags;
 noremap <C-\>G :tab split<CR>:exec("cscope find g ".expand("<cword>"))<CR>
@@ -209,8 +191,8 @@ endfunction
 au BufEnter /* call LoadCscope()
 
 " ycm
-let g:ycm_server_python_interpreter = 'python3'
-let g:ycm_python_binary_path = 'python3'
+"let g:ycm_server_python_interpreter = 'python3'
+"let g:ycm_python_binary_path = 'python3'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 
 
