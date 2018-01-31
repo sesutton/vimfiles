@@ -39,6 +39,8 @@ Plugin 'mtth/scratch.vim'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'KeitaNakamura/tex-conceal.vim'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'tell-k/vim-autopep8'
 call vundle#end()
 
 " dirsettings
@@ -141,11 +143,11 @@ set listchars=tab:\|\ ,trail:-,eol:$
 " set foldenable
 
 " Different file comment templates
-autocmd BufNewFile *.py 0r ~/.vim/py.vim
-autocmd BufNewFile *.fedreview 0r ~/.vim/fedreview.vim
-au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+"autocmd BufNewFile *.py 0r ~/.vim/py.vim
+"autocmd BufNewFile *.fedreview 0r ~/.vim/fedreview.vim
+"au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 " GNUPlot 
-au BufNewFile,BufRead *.plt,.gnuplot setf gnuplot
+"au BufNewFile,BufRead *.plt,.gnuplot setf gnuplot
 
 " Save and automatically load folds
 " You need to make a ~/.vim/views folder and chmod it to 755
@@ -210,7 +212,7 @@ let g:airline#extensions#tabline#left_alt_sep = '>'
 
 
 " pymode
-let g:pymode_python = 'python3'
+let g:pymode_python = 'python'
 let g:pymode_lint_on_write = 1
 let g:pymode_rope = 0
 let g:pymode_rope_complete_on_dot = 0
@@ -267,7 +269,7 @@ set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_cpp_auto_refresh_includes = 0
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_open = 1 
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_no_default_include_dirs = 1
 let g:syntastic_cpp_remove_include_errors = 1
@@ -281,7 +283,7 @@ let g:syntastic_mode_map = {
             \ "mode": "passive",
             \ "passive_filetypes": ["cpp", "c", "py"],
             \ "active_filetypes": ["tex"]
-            \ }
+            \ } 
 let g:syntastic_tex_checkers = ['lacheck', 'chktex']
 
 
