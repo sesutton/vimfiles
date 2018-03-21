@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Copyright 2016 Ankur Sinha 
-# Author: Ankur Sinha <sanjay DOT ankur AT gmail DOT com> 
+# Copyright 2018 Sam Sutton 
+# Author: Sam Sutton <sesutton93 AT outlook DOT com> 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
