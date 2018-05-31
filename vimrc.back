@@ -7,13 +7,15 @@ set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'sanjayankur31/hoc.vim'
+Plugin 'davidhalter/jedi-vim'
 Plugin 'sjbach/lusty'
 Plugin 'sanjayankur31/nmodl.vim'
+Plugin 'python-mode/python-mode'
 Plugin 'scrooloose/syntastic'
 Plugin 'bling/vim-airline'
-Plugin 'sanjayankur31/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'tpope/vim-fugitive'
-Plugin 'mhinz/vim-signify'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'mantiz/vim-plugin-dirsettings'
 Plugin 'tpope/vim-speeddating'
 Plugin 'dhruvasagar/vim-table-mode'
@@ -23,26 +25,22 @@ Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'vim-python/python-syntax'
 Plugin 'lervag/vimtex'
 Plugin 'Konfekt/FastFold'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'ivalkeen/nerdtree-execute'
-Plugin 'ervandew/supertab'
+Bundle 'ervandew/supertab'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'rhysd/vim-grammarous'
 Plugin 'Yggdroot/indentLine'
-Plugin 'Raimondi/delimitMate'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mtth/scratch.vim'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'KeitaNakamura/tex-conceal.vim'
-Plugin 'sanjayankur31/sli.vim'
-Plugin 'szw/vim-dict'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'tell-k/vim-autopep8'
 call vundle#end()
 
 " dirsettings
@@ -58,18 +56,11 @@ filetype plugin indent on
 " Always display status line
 set laststatus=2
 
-" set some context
-set scrolloff=1
-
-" enable increamental search
-set incsearch
-
 " Permit unsaved buffers
 set hidden
 
 " Enable conceal
 set conceallevel=2
-set concealcursor=nc
 
 " Abbreviations
 ab inout input
@@ -99,25 +90,24 @@ set syn=auto
 set showmatch
 
 "Show info in the window title
-set title
+set title 
 
 "Line length above which to break a line
-au FileType python,cpp,c,text,rst,markdown,sh,sli setl textwidth=79
+au FileType txt,c,cpp,otl set textwidth=79
+au FileType spec set textwidth=79
 
 " latex stuff
 set grepprg="grep\ -nH\ $*"
 let g:tex_flavor='latex'
 " indentation for tex files
-au BufRead,BufNewFile *.sty setl filetype=tex
-au FileType tex setl sw=2
-au FileType tex setl tabstop=2
-au FileType tex setl softtabstop=2
-au FileType tex setl softtabstop=2
+au BufRead,BufNewFile *.sty set filetype=tex
+au FileType tex set sw=2
+au FileType tex set tabstop=2
+au FileType tex set softtabstop=2
 au FileType tex IndentLinesDisable
 au FileType tex let g:ycm_auto_trigger=0
 "Spell check
-au FileType tex,markdown,rst,mail,markdown setl spell spelllang=en_gb
-let g:tex_conceal="abdgm"
+au FileType tex setlocal spell spelllang=en_gb
 let g:tex_conceal="abdgm"
 let g:tex_fold_enabled=1
 
@@ -143,17 +133,8 @@ let g:vimtex_compiler_latexmk = {
             \ ],
             \}
 
-if !exists('g:ycm_semantic_triggers')
-    let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
-let g:vimtex_complete_recursive_bib = 1
-" Do not open the quickfix window automatically for warnings.
-let g:vimtex_quickfix_open_on_warning = 0
-
-
 " Folding in C,CPP files
-au FileType c,cpp setl foldenable foldmethod=syntax
+au FileType c,cpp setl foldenable foldmethod=syntax 
 
 " This is for vertical indenting
 set list
@@ -162,11 +143,11 @@ set listchars=tab:\|\ ,trail:-,eol:$
 " set foldenable
 
 " Different file comment templates
-autocmd BufNewFile *.py 0r ~/.vim/py.vim
-autocmd BufNewFile *.fedreview 0r ~/.vim/fedreview.vim
-au BufRead,BufNewFile jquery.*.js setl ft=javascript syntax=jquery
-" GNUPlot
-au BufNewFile,BufRead *.plt,.gnuplot setf gnuplot
+"autocmd BufNewFile *.py 0r ~/.vim/py.vim
+"autocmd BufNewFile *.fedreview 0r ~/.vim/fedreview.vim
+"au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+" GNUPlot 
+"au BufNewFile,BufRead *.plt,.gnuplot setf gnuplot
 
 " Save and automatically load folds
 " You need to make a ~/.vim/views folder and chmod it to 755
@@ -190,26 +171,8 @@ set pdev=cups-pdf
 set printoptions=paper:A4,syntax:y,wrap:y,number:y
 
 
-"Folding
+"Folding 
 set foldcolumn=5
-
-" Vim filetype detection
-" Language: TaskJuggler
-" Maintainer: Max Meyer <dev@fedux.org>
-autocmd BufNewFile,BufRead *.tj3,*.taskjuggler,*.tji,*.tjp set ft=tjp
-autocmd FileType tjp nmap <Leader>tm :make %<CR>
-
-" For rpmbuilding
-nnoremap <Leader>rbs :!rm ../SRPMS/%:r*.src.rpm; rpmbuild -bs %<CR>
-nnoremap <Leader>rba :!rpmbuild -ba %<CR>
-nnoremap <Leader>rls :!rpmlint %<CR>
-nnoremap <Leader>rla :!rpmlint % ../SRPMS/%:r*.src.rpm<CR>
-nnoremap <Leader>mlrx :tabedit /var/lib/mock/fedora-rawhide-x86_64/result<CR>
-nnoremap <Leader>mlri :tabedit /var/lib/mock/fedora-rawhide-i386/result<CR>
-" ChangeLog for specs
-let spec_chglog_format = "%a %b %d %Y Ankur Sinha <ankursinha AT fedoraproject DOT org>"
-iab clog <c-r>=strftime("%a %b %d 20%y")<CR> Ankur Sinha <ankursinha AT fedoraproject DOT org>
-
 
 " New tab versions of the normal cscope mappings
 set tags=./tags;
@@ -230,9 +193,16 @@ endfunction
 au BufEnter /* call LoadCscope()
 
 " ycm
-let g:ycm_server_python_interpreter = 'python3'
-let g:ycm_python_binary_path = '/usr/bin/python3'
+"let g:ycm_server_python_interpreter = 'python3'
+"let g:ycm_python_binary_path = 'python3'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+
+
+" Disable jedi features
+let g:jedi#force_py_version = 3
+let g:jedi#show_call_signatures = "0"
+" YCM uses jedi already
+let g:jedi#completions_enabled = "0"
 
 " Vim airline show buffers
 let g:airline#extensions#tabline#enabled = 1
@@ -240,6 +210,16 @@ let g:airline#extensions#tabline#left_sep = '>'
 let g:airline#extensions#tabline#left_alt_sep = '>'
 "let g:airline_theme='wombat'
 
+
+" pymode
+let g:pymode_python = 'python'
+let g:pymode_lint_on_write = 1
+let g:pymode_rope = 0
+let g:pymode_rope_complete_on_dot = 0
+"let g:pymode_lint_checkers = ['pyflakes', 'mccabe', 'pep8', 'pep257']
+let g:pymode_lint_checkers = ['pyflakes', 'pylint', 'mccabe', 'pep8', 'pep257']
+" let g:pymode_breakpoint = 1
+" let g:pymode_breakpoint_bind = '<leader>b'
 
 " Ignore some extensions
 set wildignore=*.o,*~,*.pyc,*.aux
@@ -288,26 +268,23 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_cpp_auto_refresh_includes = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1 
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_no_default_include_dirs = 1
 let g:syntastic_cpp_remove_include_errors = 1
 let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_no_include_search = 1
-let g:syntastic_cpp_checkers = ['gcc', 'clang_check', 'cppcheck']
+"let g:syntastic_cpp_checkers = ['gcc', 'clang_check', 'cppcheck']
+let g:syntastic_cpp_checkers = ['gcc']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 let g:syntastic_mode_map = {
             \ "mode": "passive",
-            \ "passive_filetypes": ["cpp", "c"],
-            \ "active_filetypes": ["tex", "python", "sh", "spec", "rst"]
-            \ }
-let g:syntastic_tex_checkers = ['chktex']
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_exec = "flake8-3"
-let g:syntastic_rst_checkers = ['rstcheck']
-let g:syntastic_rst_rstcheck_exec = "rstcheck"
+            \ "passive_filetypes": ["cpp", "c", "py"],
+            \ "active_filetypes": ["tex"]
+            \ } 
+let g:syntastic_tex_checkers = ['lacheck', 'chktex']
 
 
 let g:table_mode_corner_corner="+"
@@ -320,13 +297,16 @@ colorscheme solarized
 
 " sli
 au BufRead,BufNewFile *.sli set filetype=sli
-au FileType sli setl foldenable foldmethod=syntax
+au FileType sli setl foldenable foldmethod=syntax 
 
 command! GetIndexList :read !grep -nro '\\index{[a-zA-Z!-]\+}' * | sed 's/\\index{\(.*\)}/\1/' | cut -d ":" -f 3 |  sort | uniq | tr '!' ':' | tr '\n' ',' | sed 's/,/, /g'
 
 " Some neuron stuff
-au BufRead,BufNewFile *.hoc,*.oc set filetype=hoc
+au BufRead,BufNewFile *.hoc set filetype=hoc
 au BufRead,BufNewFile *.mod set filetype=nmodl
+
+" disable python from polyglot
+let g:polyglot_disabled = ['python']
 
 " Modelines for files
 set modeline
@@ -367,54 +347,3 @@ let g:UltiSnipsUsePythonVersion = 3
 "let g:UltiSnipsExpandTrigger = "<tab>"
 "let g:UltiSnipsJumpForwardTrigger = "<tab>"
 "let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-" disable polyglot for python for the time being
-" https://github.com/sheerun/vim-polyglot/issues/209
-let g:polyglot_disabled = ['python', 'latex']
-let g:python_highlight_all = 1
-
-" Permit per project vimrc customisations
-set exrc
-set secure
-
-
-let g:LustyJugglerSuppressRubyWarning = 1
-
-" A function to trim all trailing whitespace
-function! TrimTrailingWhiteSpace()
-    %s/\s\+$//e
-endfunction
-function! UpdatePostDate()
-    %s/^:date: .*$/\=strftime(":date: %Y-%m-%d %H:%M:%S")/
-endfunction
-
-" Some easytag configs
-let g:easytags_syntax_keyword = 'always'
-let g:easytags_dynamic_files = 2
-let g:easytags_events = ['BufWritePost']
-let g:easytags_async = 1
-
-" Underline bad spellings, undercurl doesn't show on my config
-hi clear SpellBad
-hi SpellBad cterm=underline
-
-" Use matchit
-runtime! macros/matchit.vim
-
-" Delete comment character when joining commented lines
-set formatoptions+=j
-
-" Update binary spell file automatically
-" https://vi.stackexchange.com/questions/5050/how-to-share-vim-spellchecking-additions-between-multiple-machines
-for d in glob('~/.vim/spell/*.add', 1, 1)
-    if filereadable(d) && (!filereadable(d . '.spl') || getftime(d) > getftime(d . '.spl'))
-        exec 'mkspell! ' . fnameescape(d)
-    endif
-endfor
-
-" vim-signify
-let g:signify_vcs_list = ['git']
-
-" Enable spelling for git commit temporary files
-autocmd FileType gitcommit setlocal spell
-
