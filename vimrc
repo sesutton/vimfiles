@@ -238,8 +238,8 @@ endfunction
 au BufEnter /* call LoadCscope()
 
 " ycm
-let g:ycm_server_python_interpreter = 'python3'
-let g:ycm_python_binary_path = 'python3'
+let g:ycm_server_python_interpreter = 'python'
+let g:ycm_python_binary_path = 'python'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 
 " Vim airline show buffers
