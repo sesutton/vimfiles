@@ -49,6 +49,8 @@ Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'sanjayankur31/sli.vim'
 Plug 'szw/vim-dict'
 Plug 'sanjayankur31/vim-extra-ultisnips'
+Plug 'vim-scripts/a.vim'
+Plug 'vim-scripts/cscope.vim'
 call plug#end()
 
 " dirsettings
@@ -238,8 +240,8 @@ endfunction
 au BufEnter /* call LoadCscope()
 
 " ycm
-let g:ycm_server_python_interpreter = 'python'
-let g:ycm_python_binary_path = 'python'
+let g:ycm_server_python_interpreter = 'python3'
+let g:ycm_python_binary_path = 'python3'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 
 " Vim airline show buffers
